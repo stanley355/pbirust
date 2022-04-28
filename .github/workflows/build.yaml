@@ -14,9 +14,12 @@ jobs:
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
+      
+      - name: Build
+        run: docker build .
 
-      - name: Build Docker image
-        run: docker build -t registry.heroku.com/${{ secrets.HEROKU_APP }}/web:latest .
+      # - name: Build Docker image
+      #   run: docker build -t registry.heroku.com/${{ secrets.HEROKU_APP }}/web:latest .
 
       - name: Docker image info
         run: docker images
