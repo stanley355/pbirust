@@ -7,4 +7,6 @@ use serde::{Deserialize, Serialize};
 pub struct UserRequest {
   pub name: String,
   pub level: Option<i32>,
+  pub email: Option<String>,
+  pub last_submitted: Option<String>,
 }

@@ -12,6 +12,8 @@ pub struct User {
   pub id: i32,
   pub name: String,
   pub level: Option<i32>,
+  pub email: Option<String>,
+  pub last_submitted: Option<String>,
 }
 
 impl User {
@@ -23,7 +25,12 @@ impl User {
   pub fn add(body: web::Json<request::UserRequest>, pool: web::Data<PgPool>) -> QueryResult<usize> {
     let conn = &pool.get().unwrap();
 
-    let data = (&name.eq(&body.name), &level.eq(&body.level));
+    let data = (
+      &name.eq(&body.name),
+      &level.eq(&body.level),
+      &email.eq(&body.email),
+      &last_submitted.eq(&body.last_submitted),
+    );
     diesel::insert_into(users).values(data).execute(conn)
   }
 
@@ -36,6 +43,8 @@ impl User {
     let data = request::UserRequest {
       name: body.name.clone(),
       level: body.level.clone(),
+      email: body.email.clone(),
+      last_submitted: body.last_submitted.clone(),
     };
     diesel::update(users)
       .filter(name.eq(body.name.clone()))

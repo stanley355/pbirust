@@ -5,17 +5,17 @@ use crate::user::{model, request};
 use actix_web::{get, post, put, web, HttpResponse};
 
 #[get("/")]
-async fn get_all_host(pool: web::Data<PgPool>) -> HttpResponse {
-  let host_list = model::User::get_all(pool);
+async fn get_all_user(pool: web::Data<PgPool>) -> HttpResponse {
+  let user_list = model::User::get_all(pool);
 
-  match host_list {
+  match user_list {
     Ok(list) => HttpResponse::Ok().json(list),
     Err(e) => ErrResponse::new(ErrType::InternalServerError, e.to_string()),
   }
 }
 
 #[post("/")]
-async fn insert_new_host(
+async fn insert_new_user(
   body: web::Json<request::UserRequest>,
   pool: web::Data<PgPool>,
 ) -> HttpResponse {
@@ -26,7 +26,7 @@ async fn insert_new_host(
 }
 
 #[put("/")]
-async fn update_host(
+async fn update_user(
   body: web::Json<request::UserRequest>,
   pool: web::Data<PgPool>,
 ) -> HttpResponse {
@@ -36,10 +36,10 @@ async fn update_host(
   }
 }
 
-/// Routing for hosts
+/// Routing for users
 pub fn route(config: &mut web::ServiceConfig) {
   config
-    .service(get_all_host)
-    .service(insert_new_host)
-    .service(update_host);
+    .service(get_all_user)
+    .service(insert_new_user)
+    .service(update_user);
 }
