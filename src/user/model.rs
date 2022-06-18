@@ -19,7 +19,7 @@ pub struct User {
 impl User {
   pub fn get_all(pool: web::Data<PgPool>) -> QueryResult<Vec<User>> {
     let conn = &pool.get().unwrap();
-    users::table.order(level.asc()).load::<User>(conn)
+    users::table.order(level.desc()).load::<User>(conn)
   }
 
   pub fn add(body: web::Json<request::UserRequest>, pool: web::Data<PgPool>) -> QueryResult<usize> {
